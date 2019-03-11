@@ -2,15 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 <item
      android:id="@+id/textedit"
+    android:icon="@drawable/texteditor"
     android:title="Text Editor">
 
 </item>
     <item
         android:id="@+id/programs"
+        android:icon="@drawable/programs"
         android:title="Programs">
     </item>
     <item
         android:id="@+id/settings"
+        android:icon="@drawable/settingscompilex"
         android:title="Settings">
 
     </item>
