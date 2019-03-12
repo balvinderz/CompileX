@@ -2,51 +2,54 @@ package tired.coder.compilex;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
-    int mSelectedItem;
     BottomNavigationView bottomNavigationView;
-    private static final String SELECTED_ITEM = "arg_selected_item";
-    MenuItem selectedItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        bottomNavigationView=findViewById(R.id.bottom_navigation);
+        loadFragment(new TextEditor());
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
             @Override
             public void onNavigationItemReselected(@NonNull MenuItem menuItem) {
-                selectFragment(menuItem);
+                Fragment fragment;
+                switch (menuItem.getItemId())
+                {
+                    case R.id.textedit :
+                        fragment=new TextEditor();
+                        loadFragment(fragment);
+                        break;
+                    case R.id.programs:
+                        fragment=new TextEditor();
+                        loadFragment(fragment);
+                        break;
+                    case R.id.settings:
+                        fragment=new TextEditor();
+                        loadFragment(fragment);
+                        break;
+                }
             }
         });
-        if(savedInstanceState!=null)
-        {
-            mSelectedItem=savedInstanceState.getInt(SELECTED_ITEM,0);
-            selectedItem=bottomNavigationView.getMenu().findItem(mSelectedItem);
-        }
-        else
-            selectedItem=bottomNavigationView.getMenu().getItem(0);
-        selectFragment(selectedItem);
+
     }
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        outState.putInt(SELECTED_ITEM, mSelectedItem);
-        super.onSaveInstanceState(outState);
-    }
-    @Override
-    public void onBackPressed() {
-        MenuItem homeItem = mBottomNav.getMenu().getItem(0);
-        if (mSelectedItem != homeItem.getItemId()) {
-            // select home item
-            selectFragment(homeItem);
-        } else {
-            super.onBackPressed();
-        }
+    private  void loadFragment(Fragment fragment)
+    {
+        FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragmentcontainer,fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+
+
     }
 
 }

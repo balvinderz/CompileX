@@ -3,11 +3,14 @@
     <ScrollView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
+    android:id="@+id/scrollviewtext"
         android:layout_height="match_parent">
        <com.google.android.material.textfield.TextInputEditText
            android:layout_width="match_parent"
            android:id="@+id/code"
+           android:focusable="true"
+           android:focusableInTouchMode="true"
            android:layout_height="wrap_content"
-           android:background="null"/>
+           android:background="@android:color/transparent"/>
     </ScrollView>
 
