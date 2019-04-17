@@ -19,36 +19,39 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         loadFragment(new TextEditor());
         bottomNavigationView = findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
-            @Override
-            public void onNavigationItemReselected(@NonNull MenuItem menuItem) {
-                Fragment fragment;
-                switch (menuItem.getItemId())
-                {
-                    case R.id.textedit :
-                        fragment=new TextEditor();
-                        loadFragment(fragment);
-                        break;
-                    case R.id.programs:
-                        fragment=new TextEditor();
-                        loadFragment(fragment);
-                        break;
-                    case R.id.settings:
-                        fragment=new TextEditor();
-                        loadFragment(fragment);
-                        break;
-                }
-            }
-        });
+      bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+          @Override
+          public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+              Fragment fragment=null;
+              switch (menuItem.getItemId())
+              {
+                  case R.id.textedit :
+                      fragment=new TextEditor();
+                      break;
+                  case R.id.programs:
+                      fragment=new TextEditor();
+                      break;
+                  case R.id.settings:
+                      fragment=new Settings();
+                      break;
+              }
+              return loadFragment(fragment);
+
+
+          }
+      });
 
     }
-    private  void loadFragment(Fragment fragment)
+    private  boolean loadFragment(Fragment fragment)
     {
-        FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragmentcontainer,fragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
-
+        if (fragment != null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragmentcontainer, fragment)
+                    .commit();
+            return true;
+        }
+    return  false;
 
     }
 
