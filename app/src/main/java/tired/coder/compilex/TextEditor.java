@@ -29,6 +29,7 @@ import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -144,30 +145,33 @@ public class TextEditor  extends Fragment {
                 return true;
         return  false;
     }
-    public static void sendRequest(String code,Context context)
+    public static void sendRequest(final String code, Context context)
     {
         RequestQueue queue = Volley.newRequestQueue(context);
-        String url="http://192.168.1.103:3000";
-        HashMap<String, String> params = new HashMap<String, String>();
-        params.put("code",code);
-        JsonObjectRequest jsonobj = new JsonObjectRequest(Request.Method.POST, url,new JSONObject(params),
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                       Log.i("rightsoja","soja");
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.i("rightmarja",error.toString());
-                    }
-                }
-        ){
-            //here I want to post data to sever
+        String url="http://192.168.1.107:3000/";
+        StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                //This code is executed if the server responds, whether or not the response contains data.
+                //The String 'response' contains the server's response.
+                Log.i("responseis",response);
+            }
+        }, new Response.ErrorListener() { //Create an error listener to handle errors appropriately.
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //This code is executed if there is an error.
+            }
+        }) {
+            protected Map<String, String> getParams() {
+                Map<String, String> MyData = new HashMap<String, String>();
+                MyData.put("code", code); //Add the data you'd like to send to the server.
+                return MyData;
+            }
         };
-        queue.add(jsonobj);
+        queue.add(MyStringRequest);
+
     }
+
 
 }
 
